@@ -17,4 +17,59 @@ model User {
   emailVerified DateTime
   image String?
   hashedPassword String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  favouriteIds String[] @db.ObjectId
+
+  accounts Account[]
+  listings Listings[]
+  reservations Reservations[]
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String
+  providerAccountId String
+  refreshToken String? @db.String
+  accessToken String? @db.String
+  expiresAt Int?
+  tokenType String?
+  idToken String? @db.String
+  sessionState String? @db.String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+model Listings {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    title String
+    description String
+    image String
+    createdAt DateTime @default(now())
+    category String
+    roomCount Int
+    bathroomCount Int
+    guestCount Int
+    location String
+    userId String @db.ObjectId
+    price Int
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    reservations Reservations[]
+}
+model Reservations{
+      id String @id @default(auto()) @map("_id") @db.ObjectId
+      userId String @db.ObjectId
+      listingId String @db.ObjectId
+      startDate DateTime
+      endDate DateTime
+      totalPrice Int
+      createdAt DateTime @default(now())
+
+      user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+      listing Listings @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
 }
