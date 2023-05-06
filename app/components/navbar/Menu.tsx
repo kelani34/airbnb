@@ -19,7 +19,7 @@ const Menu: React.FC<Props> = ({ currentUser }) => {
 
   const handleOpen = useCallback(() => {
     setIsOpen((value) => !value);
-  }, []);
+  }, [setIsOpen]);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -51,7 +51,7 @@ const Menu: React.FC<Props> = ({ currentUser }) => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
