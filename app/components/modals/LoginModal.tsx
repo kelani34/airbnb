@@ -58,6 +58,7 @@ const LoginModal = () => {
         subtitle="Login to your account"
         center
       />
+
       <Input
         id="email"
         label="Email"
