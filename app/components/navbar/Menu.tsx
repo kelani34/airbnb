@@ -1,5 +1,5 @@
 "use client";
-import { User } from "@prisma/client";
+
 import { useCallback, useState, useEffect } from "react";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
@@ -7,9 +7,10 @@ import { AiOutlineMenu } from "react-icons/ai";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
+import { SafeUser } from "@/app/types";
 
 interface Props {
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 const Menu: React.FC<Props> = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
