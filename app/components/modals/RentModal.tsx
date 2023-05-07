@@ -7,6 +7,8 @@ import Heading from "../Heading";
 import { categories } from "../navbar/Categories";
 import CategoriesInput from "../Inputs/CategoriesInput";
 import { FieldValues, useForm } from "react-hook-form";
+import CountrySelect from "../Inputs/CountrySelect";
+import Map from "../Map";
 
 enum STEPS {
   CATEGORY = 0,
@@ -42,6 +44,7 @@ const RentModal = () => {
   });
 
   const categoryRes = watch("category");
+  const locationRes = watch("location");
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
@@ -88,13 +91,28 @@ const RentModal = () => {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    body = (
+      <div className=" flex flex-col gap-8">
+        <Heading
+          title="Where is your place located?"
+          subtitle="Help guests find you"
+        />
+        <CountrySelect
+          value={locationRes}
+          onChange={(value) => setCustomValue("location", value)}
+        />
+        <Map />
+      </div>
+    );
+  }
   return (
     <Modal
       title="Airbnb your home"
       body={body}
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={handleNext}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step !== STEPS.CATEGORY ? handlePrev : undefined}
