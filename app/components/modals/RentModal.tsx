@@ -9,6 +9,8 @@ import CategoriesInput from "../Inputs/CategoriesInput";
 import { FieldValues, useForm } from "react-hook-form";
 import CountrySelect from "../Inputs/CountrySelect";
 import Map from "../Map";
+import { latLng } from "leaflet";
+import dynamic from "next/dynamic";
 
 enum STEPS {
   CATEGORY = 0,
@@ -45,6 +47,14 @@ const RentModal = () => {
 
   const categoryRes = watch("category");
   const locationRes = watch("location");
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../Map"), {
+        ssr: false,
+      }),
+    [locationRes]
+  );
+
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
@@ -92,6 +102,7 @@ const RentModal = () => {
   );
 
   if (step === STEPS.LOCATION) {
+    console.log(locationRes);
     body = (
       <div className=" flex flex-col gap-8">
         <Heading
@@ -102,7 +113,7 @@ const RentModal = () => {
           value={locationRes}
           onChange={(value) => setCustomValue("location", value)}
         />
-        <Map />
+        <Map center={locationRes?.latlng} />
       </div>
     );
   }
