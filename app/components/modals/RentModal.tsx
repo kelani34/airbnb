@@ -11,6 +11,8 @@ import CountrySelect from "../Inputs/CountrySelect";
 import Map from "../Map";
 import { latLng } from "leaflet";
 import dynamic from "next/dynamic";
+import Counter from "../Inputs/Counter";
+import ImageUpload from "../Inputs/ImageUpload";
 
 enum STEPS {
   CATEGORY = 0,
@@ -47,6 +49,11 @@ const RentModal = () => {
 
   const categoryRes = watch("category");
   const locationRes = watch("location");
+  const guestCountRes = watch("guestCount");
+  const roomCountRes = watch("roomCount");
+  const bathRoomCountRes = watch("bathRoomCount");
+  const imageRes = watch("image");
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -102,7 +109,6 @@ const RentModal = () => {
   );
 
   if (step === STEPS.LOCATION) {
-    console.log(locationRes);
     body = (
       <div className=" flex flex-col gap-8">
         <Heading
@@ -114,6 +120,53 @@ const RentModal = () => {
           onChange={(value) => setCustomValue("location", value)}
         />
         <Map center={locationRes?.latlng} />
+      </div>
+    );
+  }
+
+  if (step === STEPS.INFO) {
+    body = (
+      <div className=" flex flex-col gap-8">
+        <Heading
+          title="Share some basics about your place"
+          subtitle="What amenities do you have?"
+        />
+        <Counter
+          title="Guests"
+          subtitle="How many guests do you allow?"
+          value={guestCountRes}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Rooms"
+          subtitle="How many rooms do you have?"
+          value={roomCountRes}
+          onChange={(value) => setCustomValue("roomCount", value)}
+        />
+        <hr />
+        <Counter
+          title="bathRooms"
+          subtitle="How many bathrooms do you have?"
+          value={bathRoomCountRes}
+          onChange={(value) => setCustomValue("bathRoomCount", value)}
+        />
+        <hr />
+      </div>
+    );
+  }
+
+  if (step === STEPS.IMAGES) {
+    body = (
+      <div className=" flex flex-col gap-8">
+        <Heading
+          title="Upload some images of your place"
+          subtitle="Showcase your place"
+        />
+        <ImageUpload
+          value={imageRes}
+          onChange={(value) => setCustomValue("image", value)}
+        />
       </div>
     );
   }
