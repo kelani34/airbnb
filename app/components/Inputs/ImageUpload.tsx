@@ -13,6 +13,7 @@ interface Props {
   onChange: (value: string) => void;
   value: string;
 }
+const uploadPreset = "yvorl5kc";
 
 const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
   const handleUpload = useCallback(
@@ -25,7 +26,7 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
   return (
     <CldUploadWidget
       onUpload={handleUpload}
-      uploadPreset="axlcagku"
+      uploadPreset={uploadPreset}
       options={{
         maxFiles: 1,
       }}
@@ -44,6 +45,7 @@ const ImageUpload: React.FC<Props> = ({ onChange, value }) => {
                   alt="upload fill"
                   style={{ objectFit: "cover" }}
                   src={value}
+                  fill
                 />
               </div>
             )}
