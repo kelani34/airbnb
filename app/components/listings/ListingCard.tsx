@@ -17,7 +17,7 @@ interface Props {
   actionLabel?: string;
   disabled?: boolean;
   actionId?: string;
-  user?: SafeUser | null;
+  currentUser?: SafeUser | null;
 }
 
 const ListingCard: React.FC<Props> = ({
@@ -26,7 +26,7 @@ const ListingCard: React.FC<Props> = ({
   onAction,
   actionLabel,
   actionId = "",
-  user,
+  currentUser,
   disabled,
 }) => {
   const router = useRouter();
@@ -73,7 +73,7 @@ const ListingCard: React.FC<Props> = ({
             fill
           />
           <div className=" absolute top-3 right-3">
-            <HeartButton id={data.id} user={user} />
+            <HeartButton listingId={data.id} currentUser={currentUser} />
           </div>
         </div>
         <div className="font-semibold  text-lg">

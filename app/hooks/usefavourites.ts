@@ -34,9 +34,10 @@ const useFavourite = ({ listingId, currentUser }: IUseFavourite) => {
         }
         await request();
         router.refresh();
-        toast.success("Added to favourites");
+        toast.success("Success");
       } catch (e: any) {
         toast.error("Something went wrong");
+        console.log(e);
       }
     },
     [currentUser, isFavourite, listingId, loginModal, router]
