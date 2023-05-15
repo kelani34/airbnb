@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Listings, User } from "@prisma/client";
 
 export type SafeUser = Omit<
   User,
@@ -7,4 +7,8 @@ export type SafeUser = Omit<
   createdAt: String;
   updatedAt: String;
   emailVerified: String;
+};
+
+export type SafeListing = Omit<Listings, "createdAt"> & {
+  createdAt: string;
 };

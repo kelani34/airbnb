@@ -1,7 +1,7 @@
 "use client";
 
 import { useCountries } from "@/app/hooks/useCountries";
-import { SafeUser } from "@/app/types";
+import { SafeListing, SafeUser } from "@/app/types";
 import { Listings, Reservations } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
@@ -11,13 +11,13 @@ import HeartButton from "../HeartButton";
 import Button from "../Button";
 
 interface Props {
-  data: Listings;
+  data: SafeListing;
   reservation?: Reservations;
   onAction?: (id: string) => void;
   actionLabel?: string;
   disabled?: boolean;
   actionId?: string;
-  currentUser?: SafeUser | null;
+  currentUser?: SafeUser | any;
 }
 
 const ListingCard: React.FC<Props> = ({
