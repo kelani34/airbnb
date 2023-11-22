@@ -1,47 +1,50 @@
 import { NextResponse } from "next/server";
 
 import prisma from "@/app/libs/prismadb";
-import { getCurrentUser } from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
+
   if (!currentUser) {
-    return NextResponse.redirect("/login");
+    return NextResponse.error();
   }
-  const body = await req.json();
+
+  const body = await request.json();
+
   const {
-    title,
-    description,
-    price,
     category,
-    image,
+    location,
+    guestCount,
     roomCount,
     bathroomCount,
-    guestCount,
-    location,
-  } = await body;
+    imageSrc,
+    price,
+    title,
+    description,
+  } = body;
 
+  // check if any of fields are empty
   Object.keys(body).forEach((key: any) => {
-    if (body[key] === "") {
-      NextResponse.error();
+    if (!body[key]) {
+      return NextResponse.error();
     }
   });
 
-  const listings = await prisma.listings.create({
+  const listing = await prisma.listing.create({
     data: {
-      title,
-      description,
       category,
-      image,
+      guestCount,
       roomCount,
       bathroomCount,
-      guestCount,
-      location: location.value,
+      imageSrc,
+      locationValue: location.value,
       price: parseInt(price, 10),
+      title,
+      description,
       userId: currentUser.id,
     },
   });
 
-  // return NextResponse.redirect(`/listings/${listing.id}`);
-  return NextResponse.json(listings);
+  return NextResponse.json(listing);
 }

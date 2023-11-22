@@ -1,23 +1,24 @@
 "use client";
 
-import { useCountries } from "@/app/hooks/useCountries";
 import Select from "react-select";
 
+import useCountries from "@/app/hooks/useCountries";
+
 export type CountrySelectValue = {
-  flag: string;
-  label: string;
-  latlng: number[];
   value: string;
   region: string;
+  label: string;
+  flag: string;
+  latlng: number[];
 };
 
-interface Props {
+type Props = {
   value?: CountrySelectValue;
   onChange: (value: CountrySelectValue) => void;
-}
+};
 
-const CountrySelect: React.FC<Props> = ({ value, onChange }) => {
-  const { getAll } = useCountries();
+const CountrySelect = ({ value, onChange }: Props) => {
+  const { getAll, getByValue } = useCountries();
 
   return (
     <div>
@@ -27,6 +28,18 @@ const CountrySelect: React.FC<Props> = ({ value, onChange }) => {
         options={getAll()}
         value={value}
         onChange={(value) => onChange(value as CountrySelectValue)}
+        formatOptionLabel={(option: any) => (
+          <div
+            className="
+            flex flex-row items-center gap-3"
+          >
+            <div>{option.flag}</div>
+            <div>
+              {option.label},
+              <span className="text-neutral-500 ml-1">{option.region}</span>
+            </div>
+          </div>
+        )}
         classNames={{
           control: () => "p-3 border-2",
           input: () => "text-lg",
@@ -41,15 +54,6 @@ const CountrySelect: React.FC<Props> = ({ value, onChange }) => {
             primary25: "#ffe4e6",
           },
         })}
-        formatOptionLabel={(option: any) => (
-          <div className="flex  items-center gap-3 ">
-            <div>{option.flag}</div>
-            <div>
-              {option.label},{" "}
-              <span className="text-neutral-500 ml-1">{option.region}</span>
-            </div>
-          </div>
-        )}
       />
     </div>
   );
